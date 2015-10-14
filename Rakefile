@@ -32,6 +32,8 @@ task :install => [:submodule_init, :submodules] do
   install_term_theme if RUBY_PLATFORM.downcase.include?("darwin")
 
   run_bundle_config
+  
+  install_pyenv
 
   success_msg("installed")
 end
@@ -352,6 +354,17 @@ def apply_theme_to_iterm_profile_idx(index, color_scheme_path)
 
   run %{ /usr/libexec/PlistBuddy -c "Merge '#{color_scheme_path}' :'New Bookmarks':#{index}" ~/Library/Preferences/com.googlecode.iterm2.plist }
   run %{ defaults read com.googlecode.iterm2 }
+end
+
+def install_pyenv
+  puts "======================================================"
+  puts "Cloning pyenv into ~/.pyenv "
+  puts "======================================================"
+  run %{ git clone https://github.com/yyuu/pyenv ~/.pyenv }
+  puts "======================================================"
+  puts "Cloning pyenv-virtualenv into ~/.pyenv/plugins/pyenv-virtualenv "
+  puts "======================================================"
+  run %{ git clone https://github.com/yyuu/pyenv-virtualenv ~/.pyenv/plugins/pyenv-virtualenv }
 end
 
 def success_msg(action)

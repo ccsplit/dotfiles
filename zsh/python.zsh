@@ -2,6 +2,9 @@
 # Borrowed from https://github.com/auser/yadr
 export WORKON_HOME=$HOME/.virtualenvs
 export PYTHONSTARTUP=~/.pythonrc
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/plugins/pyenv-virtualenv/bin:$PATH"
+
 
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
