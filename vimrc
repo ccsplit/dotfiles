@@ -116,8 +116,5 @@ set smartcase       " ...unless we type a capital
 " ================ Shortcuts ======================
 set pastetoggle=<F2>
 
-" ================ Skeleton templates ===============
-au BufNewFile *.py 0r ~/.vim/skel/python_skel.py
-
 " ================ Custom Settings ========================
 so ~/.yadr/vim/settings.vim
