@@ -281,7 +281,7 @@ def install_prezto
     puts "Zsh is already configured as your shell of choice. Restart your session to load the new settings"
   else
     puts "Setting zsh as your default shell"
-    if File.exists?("/usr/local/bin/zsh")
+     if File.exists?("/usr/local/bin/zsh")
       if File.readlines("/private/etc/shells").grep("/usr/local/bin/zsh").empty?
         puts "Adding zsh to standard shell list"
         run %{ echo "/usr/local/bin/zsh" | sudo tee -a /private/etc/shells }
@@ -359,13 +359,24 @@ end
 
 def install_pyenv
   puts "======================================================"
-  puts "Cloning pyenv into ~/.pyenv "
+  puts "Cloning pyenv into ~/.pyenv if it doesn't exist"
   puts "======================================================"
-  run %{ git clone https://github.com/yyuu/pyenv ~/.pyenv }
+  
+  if File.exists?("#{ENV['HOME']}/.pyenv")
+    puts "~/.pyenv already exists"
+  else
+    run %{ git clone https://github.com/yyuu/pyenv ~/.pyenv }
+  end
+  
   puts "======================================================"
   puts "Cloning pyenv-virtualenv into ~/.pyenv/plugins/pyenv-virtualenv "
   puts "======================================================"
-  run %{ git clone https://github.com/yyuu/pyenv-virtualenv ~/.pyenv/plugins/pyenv-virtualenv }
+  
+  if File.exists?("#{ENV['HOME']}/.pyenv/plugins/pyenv-virtualenv")
+    puts "~/.pyenv/plugins/pyenv-virtualenv already exists"
+  else
+    run %{ git clone https://github.com/yyuu/pyenv-virtualenv ~/.pyenv/plugins/pyenv-virtualenv }
+  end
 end
 
 def success_msg(action)
