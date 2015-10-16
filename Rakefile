@@ -359,7 +359,7 @@ end
 
 def install_pyenv
   puts "======================================================"
-  puts "Cloning pyenv into ~/.pyenv if it doesn't exist"
+  puts "Cloning pyenv into ~/.pyenv"
   puts "======================================================"
   
   if File.exists?("#{ENV['HOME']}/.pyenv")
@@ -367,7 +367,7 @@ def install_pyenv
   else
     run %{ git clone https://github.com/yyuu/pyenv ~/.pyenv }
   end
-  
+  puts ""
   puts "======================================================"
   puts "Cloning pyenv-virtualenv into ~/.pyenv/plugins/pyenv-virtualenv "
   puts "======================================================"
