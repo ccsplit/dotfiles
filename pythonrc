@@ -10,7 +10,8 @@ complement this file.
 # Imports we need
 import sys
 import os
-import readline, rlcompleter
+import readline
+import rlcompleter
 import atexit
 import pprint
 from tempfile import mkstemp
@@ -20,33 +21,44 @@ from code import InteractiveConsole
 import datetime
 import pdb
 
+# Imports for Pentesting stuff
+import hashlib
+import base64
+import urllib
+
 AUTHOR = 'Seth House <seth@eseth.com>'
 
 # Color Support
 ###############
+
+try:
+    if get_ipython():
+        sys.exit(0)
+except NameError:
+    pass
 
 class TermColors(dict):
     """Gives easy access to ANSI color codes. Attempts to fall back to no color
     for certain TERM values. (Mostly stolen from IPython.)"""
 
     COLOR_TEMPLATES = (
-        ("Black"       , "0;30"),
-        ("Red"         , "0;31"),
-        ("Green"       , "0;32"),
-        ("Brown"       , "0;33"),
-        ("Blue"        , "0;34"),
-        ("Purple"      , "0;35"),
-        ("Cyan"        , "0;36"),
-        ("LightGray"   , "0;37"),
-        ("DarkGray"    , "1;30"),
-        ("LightRed"    , "1;31"),
-        ("LightGreen"  , "1;32"),
-        ("Yellow"      , "1;33"),
-        ("LightBlue"   , "1;34"),
-        ("LightPurple" , "1;35"),
-        ("LightCyan"   , "1;36"),
-        ("White"       , "1;37"),
-        ("Normal"      , "0"),
+        ("Black", "0;30"),
+        ("Red", "0;31"),
+        ("Green", "0;32"),
+        ("Brown", "0;33"),
+        ("Blue", "0;34"),
+        ("Purple", "0;35"),
+        ("Cyan", "0;36"),
+        ("LightGray", "0;37"),
+        ("DarkGray", "1;30"),
+        ("LightRed", "1;31"),
+        ("LightGreen", "1;32"),
+        ("Yellow", "1;33"),
+        ("LightBlue", "1;34"),
+        ("LightPurple", "1;35"),
+        ("LightCyan", "1;36"),
+        ("White", "1;37"),
+        ("Normal", "0"),
     )
 
     NoColor = ''
@@ -54,16 +66,21 @@ class TermColors(dict):
 
     def __init__(self):
         if os.environ.get('TERM') in ('xterm-color', 'xterm-256color', 'linux',
-                                    'screen', 'screen-256color', 'screen-bce'):
-            self.update(dict([(k, self._base % v) for k,v in self.COLOR_TEMPLATES]))
+                                      'screen', 'screen-256color', 'screen-bce'
+                                      ):
+            self.update(dict([(k, self._base % v)
+                              for k, v in self.COLOR_TEMPLATES]))
         else:
-            self.update(dict([(k, self.NoColor) for k,v in self.COLOR_TEMPLATES]))
+            self.update(dict([(k, self.NoColor)
+                              for k, v in self.COLOR_TEMPLATES]))
+
+
 _c = TermColors()
 
 # Enable a History
 ##################
 
-HISTFILE="%s/.pyhistory" % os.environ["HOME"]
+HISTFILE = r"%s/.pyhistory" % os.environ["HOME"]
 
 # Read the existing history if there is one
 if os.path.exists(HISTFILE):
@@ -72,8 +89,10 @@ if os.path.exists(HISTFILE):
 # Set maximum number of items that will be written to the history file
 readline.set_history_length(300)
 
+
 def savehist():
     readline.write_history_file(HISTFILE)
+
 
 atexit.register(savehist)
 
@@ -86,15 +105,19 @@ sys.ps2 = '%s... %s' % (_c['Red'], _c['Normal'])
 # Enable Pretty Printing for stdout
 ###################################
 
+
 def my_displayhook(value):
     if value is not None:
         try:
             import __builtin__
             __builtin__._ = value
         except ImportError:
-            __builtins__._ = value
+            if not isinstance(__builtins__, dict):
+                __builtins__._ = value
 
         pprint.pprint(value)
+
+
 sys.displayhook = my_displayhook
 
 # Welcome message
@@ -113,6 +136,58 @@ atexit.register(lambda: sys.stdout.write("""%(DarkGray)s
 Sheesh, I thought he'd never leave. Who invited that guy?
 %(Normal)s""" % _c))
 
+# Custom Pentest-related items
+###########################
+try:
+    import urllib.parse
+    uq = urllib.parse.unquote
+    qu = urllib.parse.quote
+    qp = urllib.parse.quote_plus
+except ImportError:
+    # Python 2.x
+    uq = urllib.unquote
+    qu = urllib.quote
+    qp = urllib.quote_plus
+
+ds = base64.decodestring
+es = base64.encodestring
+
+
+class HashFunctions(object):
+    def __init__(self):
+        for h in hashlib.algorithms_available:
+            setattr(self, h, self.create_hash_func(h))
+
+    def create_hash_func(self, name):
+        if os.sys.version_info.major == 3:
+            return lambda x: hashlib.new(name, x.encode('UTF-8')).hexdigest()
+        else:
+            return lambda x: hashlib.new(name, x).hexdigest()
+
+
+hashes = HashFunctions()
+md5 = hashes.md5
+sha1 = hashes.sha1
+sha224 = hashes.sha224
+sha256 = hashes.sha256
+sha384 = hashes.sha384
+sha512 = hashes.sha512
+
+
+def rot_n(encodedMsg, n):
+    # lets make everything lower case
+    decodedMsg = ''
+    for char in list(encodedMsg):
+        if char.isalpha():
+            value = ord(char) + n
+            if value > ord('z'):
+                value = (value - ord('z')) + ord('a') - 1
+            decodedMsg += unichr(value)
+        else:
+            decodedMsg += char
+    return decodedMsg
+
+
 # Django Helpers
 ################
 
@@ -124,9 +199,14 @@ def SECRET_KEY():
             [choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
                 for i in range(50)])
 
+
 # If we're working with a Django project, set up the environment
 if 'DJANGO_SETTINGS_MODULE' in os.environ:
-    from django.db.models.loading import get_models
+    try:
+        from django.db.models.loading import get_models
+    except ImportError:
+        from django.apps import apps
+        get_models = apps.get_models
     from django.test.client import Client
     from django.test.utils import setup_test_environment, teardown_test_environment
     from django.conf import settings as S
@@ -137,7 +217,9 @@ if 'DJANGO_SETTINGS_MODULE' in os.environ:
             for m in get_models():
                 setattr(self, m.__name__, m)
 
+    print("Getting models.")
     A = DjangoModels()
+    print("Getting test client")
     C = Client()
 
     WELCOME += """%(Green)s
@@ -147,6 +229,7 @@ Django environment detected.
 * The Django test client is available as `C`.
 %(Normal)s""" % _c
 
+    print("Setup test environment")
     setup_test_environment()
     S.DEBUG_PROPAGATE_EXCEPTIONS = True
 
@@ -188,7 +271,7 @@ if 'SALT_MINION_CONFIG' in os.environ:
         __opts__ = salt.config.client_config(os.environ['SALT_MINION_CONFIG'])
 
         # Populate grains if it hasn't been done already
-        if not 'grains' in __opts__ or not __opts__['grains']:
+        if 'grains' not in __opts__ or not __opts__['grains']:
             __opts__['grains'] = salt.loader.grains(__opts__)
 
         # Populate template variables
@@ -215,13 +298,14 @@ if 'SALT_MINION_CONFIG' in os.environ:
 EDITOR = os.environ.get('EDITOR', 'vi')
 EDIT_CMD = '\e'
 
+
 class EditableBufferInteractiveConsole(InteractiveConsole):
     def __init__(self, *args, **kwargs):
-        self.last_buffer = [] # This holds the last executed statement
+        self.last_buffer = []  # This holds the last executed statement
         InteractiveConsole.__init__(self, *args, **kwargs)
 
     def runsource(self, source, *args):
-        self.last_buffer = [ source.encode('utf-8') ]
+        self.last_buffer = [source.encode('utf-8')]
         return InteractiveConsole.runsource(self, source, *args)
 
     def raw_input(self, *args):
@@ -234,10 +318,12 @@ class EditableBufferInteractiveConsole(InteractiveConsole):
             line = open(tmpfl).read()
             os.unlink(tmpfl)
             tmpfl = ''
-            lines = line.split( '\n' )
-            for i in range(len(lines) - 1): self.push( lines[i] )
+            lines = line.split('\n')
+            for i in range(len(lines) - 1):
+                self.push(lines[i])
             line = lines[-1]
         return line
+
 
 c = EditableBufferInteractiveConsole(locals=locals())
 c.interact(banner=WELCOME)

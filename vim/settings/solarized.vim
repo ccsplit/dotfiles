@@ -16,7 +16,7 @@ if !exists("g:yadr_disable_solarized_enhancements")
   hi! link rubyRailsARValidationMethod Title
   hi! link rubyRailsMethod Title
   hi! link rubyDoBlock Normal
-  hi! link MatchParen DiffText
+""  hi! link MatchParen DiffText
 
   hi! link CTagsModule Type
   hi! link CTagsClass Type

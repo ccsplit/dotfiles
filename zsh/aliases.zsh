@@ -65,6 +65,9 @@ alias :q='exit'
 # vimrc editing
 alias ve='vim ~/.vimrc'
 
+# vim aliases
+alias vp='vim -p'
+
 # zsh profile editing
 alias ze='vim ~/.zshrc'
 alias zr='source ~/.zshrc'
@@ -200,5 +203,21 @@ alias dbmr='spring rake db:migrate:redo'
 alias dbmd='spring rake db:migrate:down'
 alias dbmu='spring rake db:migrate:up'
 
-# Homebrew
-alias brewu='brew update  && brew upgrade --all && brew cleanup && brew prune && brew doctor'
+if [[ $platform == "darwin" ]] then
+  # Homebrew
+  alias brewu='brew update  && brew upgrade --all && brew cleanup && brew prune && brew doctor'
+
+  # Edit hosts file. /private/etc/hosts
+  alias ehosts='sudo vim /private/etc/hosts'
+
+  # Fix issue with Mac DNS responder
+  alias fixssh="sudo killall -HUP mDNSResponder"
+fi
+# Pentesting
+alias ssscan='sslscan --no-heartbleed --no-renegotiation --no-compression --no-fallback'
+function topports() { nmap --top-ports "$1" -v -oG -;}
+
+# Python
+alias ipy="ipython2"
+alias ipy3="ipython3"
+

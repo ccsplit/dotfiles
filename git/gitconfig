@@ -110,7 +110,7 @@
   # the usual default is to push all branches
   default = upstream
 [core]
-  autocrlf = false
+	autocrlf = false
   editor = vim
   excludesfile = ~/.yadr/git/gitignore
 [advice]
@@ -129,3 +129,5 @@
 [user]
 	name = ccsplit
 	email = cshay237@gmail.com
+[commit]
+	gpgsign = true
