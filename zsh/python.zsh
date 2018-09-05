@@ -10,7 +10,13 @@ export PYTHONDONTWRITEBYTECODE=1
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
-source /usr/local/bin/virtualenvwrapper.sh
+if [[ $YADR_PLATFORM == "Darwin" ]]; then
+  # Default brew location for virtualenvwrapper script.
+  source /usr/local/bin/virtualenvwrapper.sh
+else
+  # Default package manager location for virtualenvwrapper script
+  source /usr/bin/virtualenvwrapper.sh
+fi
 
 # virtualenv aliases
 # http://blog.doughellmann.com/2010/01/virtualenvwrapper-tips-and-tricks.html

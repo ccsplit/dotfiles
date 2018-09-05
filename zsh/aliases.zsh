@@ -3,15 +3,6 @@
 # Don't change. The following determines where YADR is installed.
 yadr=$HOME/.yadr
 
-# Get operating system
-platform='unknown'
-unamestr=$(uname)
-if [[ $unamestr == 'Linux' ]]; then
-  platform='linux'
-elif [[ $unamestr == 'Darwin' ]]; then
-  platform='darwin'
-fi
-
 # YADR support
 alias yav='yadr vim-add-plugin'
 alias ydv='yadr vim-delete-plugin'
@@ -32,10 +23,10 @@ alias cls='clear;ls'
 alias df='df -h'
 alias du='du -h -d 2'
 
-if [[ $platform == 'linux' ]]; then
+if [[ $YADR_PLATFORM == 'linux' ]]; then
   alias ll='ls -alh --color=auto'
   alias ls='ls --color=auto'
-elif [[ $platform == 'darwin' ]]; then
+elif [[ $YADR_PLATFORM == 'darwin' ]]; then
   alias ll='ls -alGh'
   alias ls='ls -Gh'
 fi
@@ -203,7 +194,7 @@ alias dbmr='spring rake db:migrate:redo'
 alias dbmd='spring rake db:migrate:down'
 alias dbmu='spring rake db:migrate:up'
 
-if [[ $platform == "darwin" ]] then
+if [[ $YADR_PLATFORM == "darwin" ]] then
   # Homebrew
   alias brewu='brew update  && brew upgrade --all && brew cleanup && brew prune && brew doctor'
 
