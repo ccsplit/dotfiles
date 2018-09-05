@@ -14,7 +14,7 @@
 [alias]
   # add
   a = add                           # add
-  aa = "add -A"
+  aa = "add -A"                     # Add all
   chunkyadd = add --patch           # stage commits chunk by chunk
 
   # via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
