@@ -22,6 +22,7 @@ task :install => [:submodule_init, :submodules] do
   install_files(Dir.glob('vimify/*')) if want_to_install?('vimification of command line tools')
   install_files(Dir.glob('gdbinit')) if want_to_install?('gdb dashboard')
   install_files(Dir.glob('pythonrc')) if want_to_install?('pythonrc')
+  install_files(Dir.glob('dir_colors')) if want_to_install?('dir_colors')
   if want_to_install?('vim configuration (highly recommended)')
     install_files(Dir.glob('{vim,vimrc}'))
     Rake::Task["install_vundle"].execute

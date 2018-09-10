@@ -78,6 +78,10 @@ Same as iTerm. The Lion style spaces navigation slows everything down for no rea
       let g:yadr_disable_solarized_enhancements = 1
       colorscheme base16-twilight
 
+
+#### Dir Colors
+
+* Currently the dir_colors uses [seebi's dircolors.256dark](https://github.com/seebi/dircolors-solarized/blob/master/dircolors.256dark) for solarized. Replace this file to change the colorscheme.
 ### Upgrading
 
 Upgrading is easy.
