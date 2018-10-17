@@ -1,2 +1,1 @@
-colo badwolf
 set cursorline

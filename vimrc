@@ -119,4 +119,4 @@ set pastetoggle=<F2>
 
 " ================ Custom Settings ========================
 so ~/.yadr/vim/settings.vim
-color badwolf
+color darkblue
