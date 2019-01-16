@@ -1,5 +1,5 @@
 export RBENV_ROOT="$HOME/.rbenv"
-export PATH="$RBENV_ROOT/shims/:$PATH"
+export PATH="$RBENV_ROOT/shims:$PATH"
 
 
 # Ruby aliases
