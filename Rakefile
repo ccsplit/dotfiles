@@ -368,8 +368,19 @@ def install_rbenv
 
   if File.exists?("#{ENV['HOME']}/.rbenv")
     puts "~/.rbenv already exists."
+    run %{ cd ~/.rbenv; git pull }
+  else
+    run %{ git clone https://github.com/rbenv/rbenv ~/.rbenv }
   end
-  run %{ git clone https://github.com/rbenv/rbenv ~/.rbenv }
+
+  if File.exists?("#{ENV['HOME']}/.rbenv/plugins/ruby-build")
+    puts "~/.rbenv/plugins/ruby-build already exists."
+    run %{ cd ~/.rbenv/plugins/ruby-build; git pull}
+  else
+    puts "Making rbenv/plugins directory."
+    run %{ mkdir -p ~/.rbenv/plugins/ }
+    run %{ git clone https://github.com/rbenv/ruby-build ~/.rbenv/plugins/ruby-build }
+  end
 end
 
 def install_pyenv
