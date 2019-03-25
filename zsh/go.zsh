@@ -1,4 +1,4 @@
-export GOPATH=$HOME/Code/go/workspace
+export GOPATH=$HOME/Code/go
 export PATH="$PATH:$GOPATH/bin"
 alias gosrc="cd $GOPATH/src/github.com/$(git config --includes --get user.name)"
 
