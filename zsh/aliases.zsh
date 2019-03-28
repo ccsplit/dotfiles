@@ -207,8 +207,8 @@ fi
 # Pentesting
 alias ssscan='sslscan --no-heartbleed --no-renegotiation --no-compression --no-fallback'
 function topports() { nmap --top-ports "$1" -v -oG -;}
-alias gobustf='gobuster -w ~/Code/SecLists/Discovery/Web-Content/raft-medium-files-lowercase.txt'
-alias gobustd='gobuster -w ~/Code/SecLists/Discovery/Web-Content/raft-medium-directories-lowercase.txt'
+alias gobustf='gobuster -w ~/Code/SecLists/Discovery/Web-Content/raft-medium-files-lowercase.txt -t 20'
+alias gobustd='gobuster -w ~/Code/SecLists/Discovery/Web-Content/raft-medium-directories-lowercase.txt -t 20'
 alias suball='subfinder -w ~/Bugs/all.txt'
 
 # Python
