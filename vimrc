@@ -22,6 +22,12 @@ set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 
+" Turn on spellcheck for Markdown and gitcommit files.
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd FileType gitcommit setlocal spell
+
+" Add auto-complete for spell check.
+set complete +=kspell
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
