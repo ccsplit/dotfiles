@@ -90,6 +90,7 @@ alias grr='git remote rm'
 alias grad='git remote add'
 alias gr='git rebase'
 alias gra='git rebase --abort'
+unalias grc 2>/dev/null
 alias ggrc='git rebase --continue'
 alias gbi='git rebase --interactive'
 alias gl='git l'
@@ -210,7 +211,12 @@ function topports() { nmap --top-ports "$1" -v -oG -;}
 alias gobustf='gobuster -w ~/Code/SecLists/Discovery/Web-Content/raft-medium-files-lowercase.txt -t 20'
 alias gobustd='gobuster -w ~/Code/SecLists/Discovery/Web-Content/raft-medium-directories-lowercase.txt -t 20'
 alias suball='subfinder -w ~/Bugs/all.txt'
+function topformats() {
+  awk "{print \$1\"@$1\"}" ~/Code/office365userenum/top-formats.txt > "top-formats.$1.txt"
+}
 
+alias ip="ip -c"
+alias nmap="grc nmap"
 # Python
 alias ipy="ipython2"
 alias ipy3="ipython3"
