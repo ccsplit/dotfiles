@@ -220,4 +220,4 @@ alias nmap="grc nmap"
 # Python
 alias ipy="ipython2"
 alias ipy3="ipython3"
-
+alias pyin="python setup.py install"
