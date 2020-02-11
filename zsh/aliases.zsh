@@ -217,6 +217,12 @@ function topformats() {
 
 alias ip="ip -c"
 alias nmap="grc nmap"
+function isort() {
+  sort $1 -o $1
+}
+function usort() {
+  sort -u $1 -o $1
+}
 # Python
 alias ipy="ipython2"
 alias ipy3="ipython3"

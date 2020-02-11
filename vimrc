@@ -21,6 +21,7 @@ set showmode                    "Show current mode down the bottom
 set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
+set mouse=a                     "Set the mouse to scroll
 
 " Turn on spellcheck for Markdown and gitcommit files.
 autocmd BufRead,BufNewFile *.md setlocal spell

@@ -1,1 +1,1 @@
-autocmd BufWritePre *.rs execute ':RustFmt'
+let g:rustfmt_autosave = 1

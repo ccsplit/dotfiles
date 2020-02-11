@@ -151,6 +151,8 @@ except ImportError:
 
 ds = base64.decodestring
 es = base64.encodestring
+ues = base64.urlsafe_b64encode
+uds = base64.urlsafe_b64decode
 
 
 class HashFunctions(object):

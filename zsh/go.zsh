@@ -1,3 +1,4 @@
+export GO111MODULE=auto
 export GOPATH=$HOME/Code/go
 export PATH="$PATH:$GOPATH/bin"
 alias gosrc="cd $GOPATH/src/github.com/$(git config --includes --get user.name)"
