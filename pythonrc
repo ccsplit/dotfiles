@@ -186,7 +186,8 @@ def rot_n(encodedMsg, n):
                 value = (value - ord('z')) + ord('a') - 1
             decodedMsg += unichr(value)
         else:
-
+            decodedMsg += char
+    return decodedMsg
 
 def download_file(url):
     local_filename = url.split("/")[-1]
@@ -199,8 +200,7 @@ def download_file(url):
                 # and set chunk_size parameter to None.
                 # if chunk:
                 f.write(chunk)
-    return local_filename            decodedMsg += char
-    return decodedMsg
+    return local_filename
 
 # Django Helpers
 ################
