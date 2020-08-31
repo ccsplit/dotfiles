@@ -223,6 +223,9 @@ function isort() {
 function usort() {
   sort -u $1 -o $1
 }
+function ipinfo {
+  python -c "import requests,pprint;pprint.pprint(requests.get('https://ipinfo.io').json())"
+}
 # Python
 alias ipy="ipython2"
 alias ipy3="ipython3"
