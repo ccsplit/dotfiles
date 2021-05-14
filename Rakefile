@@ -39,6 +39,8 @@ task :install => [:submodule_init, :submodules] do
 
   install_rbenv
 
+  install_asdf
+
   install_pyenv
 
   success_msg("installed")
@@ -384,13 +386,27 @@ def install_rbenv
   end
 end
 
+def install_asdf
+  puts "======================================================"
+  puts "Cloning asdf into ~/.asdf"
+  puts "======================================================"
+
+  if File.exists?("#{ENV['HOME']}/.asdf")
+    puts "~/.asdf already exists, updating"
+    run %{ cd ~/.asdf; git checkout -b "$(git describe --abbrev=0 --tags)" }
+  else
+    run %{ git clone https://github.com/asdf-vm/asdf ~/.asdf && cd ~/.asdf && git checkout -b "$(git describe --abbrev=0 --tags)" }
+  end
+end
+
 def install_pyenv
   puts "======================================================"
   puts "Cloning pyenv into ~/.pyenv"
   puts "======================================================"
 
   if File.exists?("#{ENV['HOME']}/.pyenv")
-    puts "~/.pyenv already exists"
+    puts "~/.pyenv already exists, updating"
+    run %{ cd ~/.pyenv; git pull }
   else
     run %{ git clone https://github.com/yyuu/pyenv ~/.pyenv }
   end
@@ -400,7 +416,8 @@ def install_pyenv
   puts "======================================================"
 
   if File.exists?("#{ENV['HOME']}/.pyenv/plugins/pyenv-virtualenv")
-    puts "~/.pyenv/plugins/pyenv-virtualenv already exists"
+    puts "~/.pyenv/plugins/pyenv-virtualenv already exists updating"
+    run %{ cd ~/.pyenv/plugins/pyenv-virtualenv; git pull}
   else
     run %{ git clone https://github.com/yyuu/pyenv-virtualenv ~/.pyenv/plugins/pyenv-virtualenv }
   end
