@@ -1,0 +1,1 @@
+Plugin 'hashivim/vim-terraform'

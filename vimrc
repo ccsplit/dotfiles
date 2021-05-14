@@ -4,6 +4,7 @@ set encoding=utf8
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+let g:snipMate = { 'snippet_version': 1 }
 " TODO: this may not be in the correct place. It is intended to allow overriding <Leader>.
 " source ~/.vimrc.before if it exists.
 if filereadable(expand("~/.vimrc.before"))
