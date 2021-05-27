@@ -2077,3 +2077,6 @@ TRACE () {
 }
 -antigen-env-setup
 
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+compinit

@@ -149,8 +149,12 @@ except ImportError:
     qu = urllib.quote
     qp = urllib.quote_plus
 
-ds = base64.decodestring
-es = base64.encodestring
+try:
+    ds = base64.decodestring
+    es = base64.encodestring
+except:
+    ds = base64.b64decode
+    es = base64.b64encode
 ues = base64.urlsafe_b64encode
 uds = base64.urlsafe_b64decode
 
