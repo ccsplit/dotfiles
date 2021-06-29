@@ -7,7 +7,7 @@ export PATH="$PATH:$PYENV_ROOT/bin:$PYENV_ROOT/plugins/pyenv-virtualenv/bin"
 export PYTHONDONTWRITEBYTECODE=1
 
 
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv > /dev/null; then eval "$(pyenv init --path)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 if [[ $YADR_PLATFORM == "Darwin" ]]; then
